@@ -21,6 +21,7 @@ public class PostService {
         this.userService = userService;
     }
 
+    // Id olmak zorunda değil. Resquest'de varsa ona göre dönüş yapar.
     public List<Post> getAllPosts(Optional<Long> userId) {
         if (userId.isPresent()){
             return postRepository.findByUserId(userId);
@@ -35,7 +36,7 @@ public class PostService {
     }
 
     public Post createOnePost(PostCreateRequest newPostRequest) {
-        User user = userService.getOneUser(newPostRequest.getUserId());
+        User user = userService.getOneUserById(newPostRequest.getUserId());
         if (user == null){
             return null;
         }

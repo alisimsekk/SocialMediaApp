@@ -19,7 +19,7 @@ public class Post {
     @JsonIgnore
     User user;
     String title;
-    @Lob
+    @Lob // @Lob, metin, resim veya başka büyük veri türlerini veritabanında saklamak için kullanılır.
     @Column(columnDefinition = "text" )
     String text;
 }
