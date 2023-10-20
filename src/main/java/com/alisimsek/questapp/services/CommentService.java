@@ -51,8 +51,6 @@ public class CommentService {
             return commentRepository.save(commentToSave);
         }else
             return null;
-
-
     }
 
     public Comment updateOneCommentById(Long commentId, CommentUpdateRequest request) {
