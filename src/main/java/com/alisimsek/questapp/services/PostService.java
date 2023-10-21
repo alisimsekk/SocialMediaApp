@@ -5,10 +5,12 @@ import com.alisimsek.questapp.entities.User;
 import com.alisimsek.questapp.repositories.PostRepository;
 import com.alisimsek.questapp.requests.PostCreateRequest;
 import com.alisimsek.questapp.requests.PostUpdateRequest;
+import com.alisimsek.questapp.responses.PostResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -22,13 +24,16 @@ public class PostService {
     }
 
     // Id olmak zorunda değil. Resquest'de varsa ona göre dönüş yapar.
-    public List<Post> getAllPosts(Optional<Long> userId) {
+    public List<PostResponse> getAllPosts(Optional<Long> userId) {
+        List<Post> list;
+
         if (userId.isPresent()){
-            return postRepository.findByUserId(userId);
+            list= postRepository.findByUserId(userId);
         }
         else{
-            return postRepository.findAll();
+            list= postRepository.findAll();
         }
+        return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
     }
 
     public Post getOnePostById(Long postId) {

@@ -53,6 +53,8 @@ public class LikeService {
         return likeRepository.findById(likeId).orElse(null);
     }
 
+
+    /*
     public Like updateOneLikeById(Long likeId, LikeUpdateRequest request) {
         User user = userService.getOneUserById(request.getUserId());
         Post post = postService.getOnePostById(request.getPostId());
@@ -66,6 +68,7 @@ public class LikeService {
         }else
             return null;
     }
+     */
 
     public void deleteOneLikeById(Long likeId) {
         likeRepository.deleteById(likeId);

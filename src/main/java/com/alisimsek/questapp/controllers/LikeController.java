@@ -34,10 +34,12 @@ public class LikeController {
         return likeService.getOneLikeById(likeId);
     }
 
+    /*
     @PutMapping("/{likeId}")
     public Like updateOneLike (@PathVariable Long likeId, @RequestBody LikeUpdateRequest request){
         return likeService.updateOneLikeById(likeId,request);
     }
+     */
 
     @DeleteMapping("/likeId")
     public void deleteOneLike (@PathVariable Long likeId){

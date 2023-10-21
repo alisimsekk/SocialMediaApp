@@ -13,11 +13,11 @@ public class Post {
     @Id
     Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY) //lazy tanımladık -> db den post çektiğimizde user objelerini çekmez
+    @ManyToOne(fetch = FetchType.EAGER) //lazy tanımlasaydık -> db den post çektiğimizde user objelerini çekmez
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE) //bir user silinince ona ait tüm postların silinmesini sağlar
-    @JsonIgnore
     User user;
+
     String title;
     @Lob // @Lob, metin, resim veya başka büyük veri türlerini veritabanında saklamak için kullanılır.
     @Column(columnDefinition = "text" )
