@@ -3,6 +3,7 @@ package com.alisimsek.questapp.controllers;
 import com.alisimsek.questapp.entities.Like;
 import com.alisimsek.questapp.requests.LikeCreateRequest;
 import com.alisimsek.questapp.requests.LikeUpdateRequest;
+import com.alisimsek.questapp.responses.LikeResponse;
 import com.alisimsek.questapp.services.LikeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class LikeController {
     }
 
     @GetMapping()
-    public List<Like> getAllLikes(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId){
+    public List<LikeResponse> getAllLikes(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId){
         return likeService.getAllLikesWithParam(userId,postId);
     }
 

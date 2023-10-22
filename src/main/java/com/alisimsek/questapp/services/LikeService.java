@@ -7,10 +7,12 @@ import com.alisimsek.questapp.entities.User;
 import com.alisimsek.questapp.repositories.LikeRepository;
 import com.alisimsek.questapp.requests.LikeCreateRequest;
 import com.alisimsek.questapp.requests.LikeUpdateRequest;
+import com.alisimsek.questapp.responses.LikeResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LikeService {
@@ -24,15 +26,17 @@ public class LikeService {
         this.postService = postService;
     }
 
-    public List<Like> getAllLikesWithParam(Optional<Long> userId, Optional<Long> postId) {
+    public List<LikeResponse> getAllLikesWithParam(Optional<Long> userId, Optional<Long> postId) {
+        List<Like> list;
         if (userId.isPresent() && postId.isPresent()){
-            return likeRepository.findByUserIdAndPostId(userId.get(), postId.get());
+            list = likeRepository.findByUserIdAndPostId(userId.get(), postId.get());
         } else if (userId.isPresent()) {
-            return likeRepository.findByUserId(userId.get());
+            list = likeRepository.findByUserId(userId.get());
         } else if (postId.isPresent()) {
-            return likeRepository.findByPostId(postId.get());
+            list = likeRepository.findByPostId(postId.get());
         }else
-            return likeRepository.findAll();
+            list = likeRepository.findAll();
+        return list.stream().map(like -> new LikeResponse(like)).collect(Collectors.toList());
     }
 
     public Like createOneLike(LikeCreateRequest request) {

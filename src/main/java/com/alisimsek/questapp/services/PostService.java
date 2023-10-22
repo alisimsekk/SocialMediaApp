@@ -1,11 +1,15 @@
 package com.alisimsek.questapp.services;
 
+import com.alisimsek.questapp.entities.Like;
 import com.alisimsek.questapp.entities.Post;
 import com.alisimsek.questapp.entities.User;
 import com.alisimsek.questapp.repositories.PostRepository;
 import com.alisimsek.questapp.requests.PostCreateRequest;
 import com.alisimsek.questapp.requests.PostUpdateRequest;
+import com.alisimsek.questapp.responses.LikeResponse;
 import com.alisimsek.questapp.responses.PostResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +21,17 @@ public class PostService {
 
     private PostRepository postRepository;
     private UserService userService;
+    private LikeService likeService;
 
     public PostService(PostRepository postRepository, UserService userService) {
         this.postRepository = postRepository;
         this.userService = userService;
+
+    }
+
+    @Autowired
+    public void setLikeService(LikeService likeService) {
+        this.likeService = likeService;
     }
 
     // Id olmak zorunda değil. Resquest'de varsa ona göre dönüş yapar.
@@ -33,7 +44,10 @@ public class PostService {
         else{
             list= postRepository.findAll();
         }
-        return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
+        return list.stream().map(p -> {
+            List<LikeResponse> likes = likeService.getAllLikesWithParam(Optional.ofNullable(null), Optional.of(p.getId()));
+            return new PostResponse(p , likes);
+        }).collect(Collectors.toList());
     }
 
     public Post getOnePostById(Long postId) {

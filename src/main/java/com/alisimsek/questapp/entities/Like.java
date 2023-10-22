@@ -11,6 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 public class Like {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY) //lazy tanımladık -> db den post çektiğimizde post objelerini çekmez
