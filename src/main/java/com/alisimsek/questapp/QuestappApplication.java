@@ -10,7 +10,7 @@ public class QuestappApplication {
 		SpringApplication.run(QuestappApplication.class, args);
 		System.out.println("çalıştı");
 
-
+	//8. video 33.dk
 	}
 
 }
