@@ -4,7 +4,7 @@ import com.alisimsek.questapp.entities.Comment;
 import com.alisimsek.questapp.requests.CommentCreateRequest;
 import com.alisimsek.questapp.requests.CommentUpdateRequest;
 import com.alisimsek.questapp.services.CommentService;
-import jakarta.persistence.Lob;
+import javax.persistence.Lob;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

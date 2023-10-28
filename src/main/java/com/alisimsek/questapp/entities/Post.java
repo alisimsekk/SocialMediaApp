@@ -1,6 +1,6 @@
 package com.alisimsek.questapp.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;

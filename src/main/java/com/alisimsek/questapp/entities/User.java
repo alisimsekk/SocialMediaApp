@@ -1,6 +1,6 @@
 package com.alisimsek.questapp.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 @Entity
