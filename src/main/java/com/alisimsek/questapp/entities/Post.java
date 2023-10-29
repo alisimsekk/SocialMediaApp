@@ -5,6 +5,8 @@ import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.Date;
+
 @Entity
 @Table(name="post")
 @Data
@@ -23,4 +25,7 @@ public class Post {
     @Lob // @Lob, metin, resim veya başka büyük veri türlerini veritabanında saklamak için kullanılır.
     @Column(columnDefinition = "text" )
     String text;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    Date createDate;
 }

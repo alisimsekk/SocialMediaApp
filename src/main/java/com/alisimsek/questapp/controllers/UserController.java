@@ -2,7 +2,9 @@ package com.alisimsek.questapp.controllers;
 
 import com.alisimsek.questapp.entities.User;
 import com.alisimsek.questapp.repositories.UserRepository;
+import com.alisimsek.questapp.responses.UserResponse;
 import com.alisimsek.questapp.services.UserService;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,9 +32,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public User getOneUser(@PathVariable Long userId){
-        //custom exception eklenecek
-        return userService.getOneUserById(userId);
+    public UserResponse getOneUser(@PathVariable Long userId){
+        return new UserResponse(userService.getOneUserById(userId));
     }
 
     @PutMapping("/{userId}")
@@ -43,5 +44,10 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public void deleteOneUser(@PathVariable Long userId){
         userService.deleteById(userId);
+    }
+
+    @GetMapping("/activity/{userId}")
+    public List<Object> getUserActivity(@PathVariable Long userId){
+        return userService.getUserActivity(userId);
     }
 }

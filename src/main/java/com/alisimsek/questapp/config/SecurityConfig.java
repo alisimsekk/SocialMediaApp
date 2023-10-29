@@ -79,6 +79,16 @@ public class SecurityConfig {
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/comments")
                 .permitAll()
+
+/*
+                .antMatchers(HttpMethod.GET, "/users/posts/{id}")
+                .permitAll()
+
+ */
+
+
+
+
                 .antMatchers("/auth/**")
                 .permitAll()
                 .anyRequest().authenticated();
