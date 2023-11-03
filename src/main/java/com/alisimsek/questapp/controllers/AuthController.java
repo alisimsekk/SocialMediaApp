@@ -42,6 +42,7 @@ public class AuthController {
         User user = userService.getOneUserByUsername(loginRequest.getUserName());
         AuthResponse authResponse = new AuthResponse();
         authResponse.setMessage("Bearer " + jwtToken);
+        System.out.println("Bearer " + jwtToken);
         authResponse.setUserId(user.getId());
         return authResponse ;
     }
@@ -53,12 +54,13 @@ public class AuthController {
             authResponse.setMessage("Username already in use");
             return new ResponseEntity<>(authResponse, HttpStatus.BAD_REQUEST);
         }
-
-        User user = new User();
-        user.setUserName(registerRequest.getUserName());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        userService.saveOneUser(user);
-        authResponse.setMessage("User succesfully registered");
+        else {
+            User user = new User();
+            user.setUserName(registerRequest.getUserName());
+            user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+            userService.saveOneUser(user);
+            authResponse.setMessage("User succesfully registered");
+        }
         return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
 }

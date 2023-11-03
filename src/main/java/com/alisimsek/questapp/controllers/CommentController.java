@@ -3,6 +3,7 @@ package com.alisimsek.questapp.controllers;
 import com.alisimsek.questapp.entities.Comment;
 import com.alisimsek.questapp.requests.CommentCreateRequest;
 import com.alisimsek.questapp.requests.CommentUpdateRequest;
+import com.alisimsek.questapp.responses.CommentResponse;
 import com.alisimsek.questapp.services.CommentService;
 import javax.persistence.Lob;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class CommentController {
     }
 
     @GetMapping()
-    public List<Comment> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId){
+    public List<CommentResponse> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId){
         return commentService.getAllCommentsWithParam(userId,postId);
     }
 
