@@ -4,6 +4,7 @@ import com.alisimsek.questapp.entities.User;
 import com.alisimsek.questapp.requests.UserRequest;
 import com.alisimsek.questapp.responses.AuthResponse;
 import com.alisimsek.questapp.security.JwtTokenProvider;
+import com.alisimsek.questapp.services.RefreshTokenService;
 import com.alisimsek.questapp.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +26,15 @@ public class AuthController {
     private JwtTokenProvider jwtTokenProvider;
     private UserService userService;
     private PasswordEncoder passwordEncoder;
+    private RefreshTokenService refreshTokenService;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService, PasswordEncoder passwordEncoder) {
+    public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService,
+                          PasswordEncoder passwordEncoder, RefreshTokenService refreshTokenService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @PostMapping("/login")
@@ -41,7 +45,8 @@ public class AuthController {
         String jwtToken = jwtTokenProvider.generateJwtToken(auth);
         User user = userService.getOneUserByUsername(loginRequest.getUserName());
         AuthResponse authResponse = new AuthResponse();
-        authResponse.setMessage("Bearer " + jwtToken);
+        authResponse.setAccessToken("Bearer " + jwtToken);
+        authResponse.setRefreshToken(refreshTokenService.createRefreshToken(user));
         System.out.println("Bearer " + jwtToken);
         authResponse.setUserId(user.getId());
         return authResponse ;
@@ -54,13 +59,31 @@ public class AuthController {
             authResponse.setMessage("Username already in use");
             return new ResponseEntity<>(authResponse, HttpStatus.BAD_REQUEST);
         }
-        else {
-            User user = new User();
-            user.setUserName(registerRequest.getUserName());
-            user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-            userService.saveOneUser(user);
-            authResponse.setMessage("User succesfully registered");
-        }
+
+        User user = new User();
+        user.setUserName(registerRequest.getUserName());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        userService.saveOneUser(user);
+
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(registerRequest.getUserName(), registerRequest.getPassword());
+        Authentication auth = authenticationManager.authenticate(authToken);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        String jwtToken = jwtTokenProvider.generateJwtToken(auth);
+
+        authResponse.setMessage("User succesfully registered");
+        authResponse.setAccessToken("Bearer " + jwtToken);
+        authResponse.setRefreshToken(refreshTokenService.createRefreshToken(user));
+        authResponse.setUserId(user.getId());
         return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
 }
+
+
+
+
+
+
+
+
+
+
