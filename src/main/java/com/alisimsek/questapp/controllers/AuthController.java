@@ -1,6 +1,8 @@
 package com.alisimsek.questapp.controllers;
 
+import com.alisimsek.questapp.entities.RefreshToken;
 import com.alisimsek.questapp.entities.User;
+import com.alisimsek.questapp.requests.RefreshRequest;
 import com.alisimsek.questapp.requests.UserRequest;
 import com.alisimsek.questapp.responses.AuthResponse;
 import com.alisimsek.questapp.security.JwtTokenProvider;
@@ -76,6 +78,30 @@ public class AuthController {
         authResponse.setUserId(user.getId());
         return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshRequest refreshRequest){
+        AuthResponse response = new AuthResponse();
+        RefreshToken token = refreshTokenService.getByUser(refreshRequest.getUserId());
+        if (token.getToken().equals(refreshRequest.getRefreshToken()) && !refreshTokenService.isRefreshExpired(token)){
+
+            User user = token.getUser();
+
+            String jwtToken = jwtTokenProvider.generateJwtTokenByUserName(user.getId());
+
+            response.setMessage("Token succesfully refreshed");
+            response.setAccessToken("Bearer " + jwtToken);
+            response.setRefreshToken(refreshTokenService.createRefreshToken(user));
+            response.setUserId(user.getId());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } else {
+            response.setMessage("refresh token is not valid.");
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+
 }
 
 
