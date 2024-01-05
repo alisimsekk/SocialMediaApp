@@ -85,10 +85,6 @@ public class SecurityConfig {
                 .permitAll()
 
  */
-
-
-
-
                 .antMatchers("/auth/**")
                 .permitAll()
                 .anyRequest().authenticated();

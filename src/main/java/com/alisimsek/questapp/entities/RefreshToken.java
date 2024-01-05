@@ -21,12 +21,12 @@ public class RefreshToken {
     @JoinColumn (name="user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    User user;
+    private User user;
 
     @Column(nullable = false)
-    String token;
+    private String token;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    Date expiryDate;
+    private Date expiryDate;
 }

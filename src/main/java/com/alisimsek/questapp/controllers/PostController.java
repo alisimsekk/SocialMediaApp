@@ -21,9 +21,8 @@ public class PostController {
         this.postService = postService;
     }
 
-    // userId opsiyoneldir. Request'de id varsa user'ın postları gelir, id yoksa tüm postlar gelir
     @GetMapping
-    public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId){ //RequestParam yazarak userId yi opsiyonel tutarız. userId olmazsa tüm postları getirir
+    public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId){
         return postService.getAllPosts(userId);
     }
 

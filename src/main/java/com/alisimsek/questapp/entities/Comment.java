@@ -14,24 +14,24 @@ import java.util.Date;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY) //lazy tanımladık -> db den post çektiğimizde post objelerini çekmez
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE) //bir post silinince ona ait tüm commentlerin silinmesini sağlar
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    Post post;
+    private Post post;
 
-    @ManyToOne(fetch = FetchType.LAZY) //lazy tanımladık -> db den post çektiğimizde user objelerini çekmez
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE) //bir user silinince ona ait tüm postların silinmesini sağlar
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    User user;
+    private User user;
 
     @Lob
     @Column(columnDefinition = "text")
-    String text;
+    private String text;
 
     @Temporal(TemporalType.TIMESTAMP)
-    Date createDate;
+    private Date createDate;
 }

@@ -34,7 +34,6 @@ public class PostService {
         this.likeService = likeService;
     }
 
-    // Id olmak zorunda değil. Resquest'de varsa ona göre dönüş yapar.
     public List<PostResponse> getAllPosts(Optional<Long> userId) {
         List<Post> list;
 

@@ -9,9 +9,9 @@ import lombok.Data;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String userName;
-    String password;
-    int avatar;
+    private String userName;
+    private String password;
+    private int avatar;
 }
